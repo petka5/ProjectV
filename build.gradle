@@ -1,0 +1,12 @@
+// https://guides.gradle.org/creating-multi-project-builds/
+// https://guides.gradle.org/building-spring-boot-2-projects-with-gradle/
+
+allprojects {
+    repositories {
+        jcenter() 
+    }
+}
+
+subprojects {
+    version = '1.0'
+}
