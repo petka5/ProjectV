@@ -10,3 +10,11 @@ allprojects {
 subprojects {
     version = '1.0'
 }
+
+project.ext {
+    lombok_version = '1.18.8'
+}
+
+ext.libraries = [
+        lombok: "org.projectlombok:lombok:$lombok_version"
+]

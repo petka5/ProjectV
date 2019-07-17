@@ -1,0 +1,19 @@
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                PETKA: %d{HH:mm:ss.SSS} [%t] %-5level %logger{36}.%M:%line - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <logger name="org.petka" level="debug" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <root level="error">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
