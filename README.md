@@ -3,4 +3,8 @@
 
 Running application.
 ```
-./gradlew bootRun
+./gradlew clean build
+
+docker-compose build
+
+docker-compose up
