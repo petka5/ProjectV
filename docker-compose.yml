@@ -8,5 +8,18 @@ services:
     environment:
       - JVM_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9000
       - ENV=default
+      - DB_URL=jdbc:mysql://petka-mariadb:3306/petka?useSSL=false
+      - DB_USERNAME=petka
+      - DB_PASSWORD=petka
     ports:
       - '8080:8080'
+      - '9000:9000'
+    depends_on:
+      - database
+
+  database:
+    image: petka-mariadb
+    build: database
+    container_name: petka-mariadb
+    ports:
+      - '3306:3306'
