@@ -9,6 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * User entity.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

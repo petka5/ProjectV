@@ -7,8 +7,16 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Testing template replacement.
+ */
 public class Test {
 
+    /**
+     * Main class.
+     *
+     * @param args - args
+     */
     public static void main(String[] args) {
         List<String> templates = new ArrayList<>();
         templates.add("Hello {one} , {two}");
@@ -18,11 +26,10 @@ public class Test {
         map.put("one", " this is one");
         map.put("two", "tova e 2");
 
-        List<String> collect1 = templates.stream().map(
-                t -> map.entrySet().stream()
-                        .map(e -> (Function<String, String>) data -> data
-                                .replaceAll("\\{" + e.getKey() + "\\}", e.getValue()))
-                        .reduce(Function.identity(), Function::andThen).apply(t)).collect(Collectors.toList());
+        List<String> collect1 = templates.stream().map(t -> map.entrySet().stream()
+                .map(e -> (Function<String, String>) data -> data
+                        .replaceAll("\\{" + e.getKey() + "\\}", e.getValue()))
+                .reduce(Function.identity(), Function::andThen).apply(t)).collect(Collectors.toList());
 
         System.out.println(collect1);
     }

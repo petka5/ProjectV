@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Test controller - say hello.
+ */
 @Slf4j
 @RestController
 public class HelloController {
@@ -17,6 +20,10 @@ public class HelloController {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Test request method.
+     * @return greeting.
+     */
     @RequestMapping("/")
     public String index() {
         log.info("Hello world controller.");
