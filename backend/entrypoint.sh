@@ -1,3 +1,3 @@
-#!/usr/bin/env bash
+#!/bin/bash -e
 
-exec java $JVM_OPTS -Dspring.profiles.active=service,${ENV} -jar /opt/petka/libs/backend-1.0.jar
+exec java ${JVM_OPTS} -Dspring.profiles.active=${ENV} -jar /opt/petka/libs/backend-1.0.jar
