@@ -15,12 +15,15 @@ services:
       - RABBITMQ_PORT=5672
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
+      - REDIS_HOST=petka-redis
+      - REDIS_PORT=6379
     ports:
       - '8080:8080'
       - '9000:9000'
     depends_on:
       - database
       - rabbitmq
+      - redis
 
   database:
     image: petka-mariadb
@@ -36,3 +39,10 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  redis:
+    image: petka-redis
+    build: redis
+    container_name: petka-redis
+    ports:
+      - '6379:6379'
