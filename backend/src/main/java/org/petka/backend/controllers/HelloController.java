@@ -7,6 +7,7 @@ import org.petka.backend.persistence.UserRepository;
 import org.petka.backend.services.MessageProducer;
 import org.petka.backend.services.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,5 +50,12 @@ public class HelloController {
     public String getPostByID(@PathVariable String id) {
         log.info("Get result for {}", id);
         return redisCache.getPostByID(id);
+    }
+
+    @GetMapping("/jwttest")
+    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    public String jwttest() {
+        log.info("jwttest");
+        return "jwttest";
     }
 }
