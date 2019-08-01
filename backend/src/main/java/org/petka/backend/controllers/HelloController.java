@@ -46,7 +46,7 @@ public class HelloController {
         return "Greetings from Spring Boot!";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/cache/{id}")
     public String getPostByID(@PathVariable String id) {
         log.info("Get result for {}", id);
         return redisCache.getPostByID(id);
