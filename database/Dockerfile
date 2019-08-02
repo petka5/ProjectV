@@ -8,6 +8,8 @@ ENV MYSQL_DATABASE petka
 ENV MYSQL_USER petka
 ENV MYSQL_PASSWORD petka
 
+COPY dbScript.sql /docker-entrypoint-initdb.d/
+
 EXPOSE 3306
 
 CMD ["mysqld"]
