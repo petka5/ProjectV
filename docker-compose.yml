@@ -46,3 +46,44 @@ services:
     container_name: petka-redis
     ports:
       - '6379:6379'
+
+# https://medium.com/@karthi.net/how-to-aggregate-docker-container-logs-and-analyse-with-elk-stack-fb88cf5a98a4:
+  logspout:
+    image: gliderlabs/logspout:latest
+    command: 'udp://logstash:5000'
+    links:
+      - logstash
+    volumes:
+      - '/var/run/docker.sock:/tmp/docker.sock'
+    depends_on:
+      - elasticsearch
+      - logstash
+      - kibana
+
+  logstash:
+    image: logstash:7.2.0
+    environment:
+      - STDOUT=true
+    links:
+      - elasticsearch
+    depends_on:
+      - elasticsearch
+      - kibana
+    command: 'logstash -e "input { udp { port => 5000 } } output { elasticsearch { hosts => elasticsearch } }"'
+
+  kibana:
+    image: kibana:7.2.0
+    links:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    ports:
+      - '5601:5601'
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: elasticsearch:7.2.0
+    ports:
+      - '9200:9200'
+      - '9300:9300'
