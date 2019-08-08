@@ -80,8 +80,10 @@
 						"id": "54046998-0773-4a7b-96af-dd75c29971ee",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
+							"var jsonData = JSON.parse(responseBody);",
 							"",
-							"postman.setEnvironmentVariable(\"Authorization\",\"Bearer \"+ jsonData.access_token);"
+							"postman.setEnvironmentVariable(\"access_token\",jsonData.access_token);",
+							""
 						],
 						"type": "text/javascript"
 					}
