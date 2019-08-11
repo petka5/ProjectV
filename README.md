@@ -29,3 +29,5 @@ docker-compose up
 
 [http://localhost:8080/jwttest](http://localhost:8080/jwttest) - test oauth2 security.  
 
+**ELK stack**
+[http://localhost:5601](http://localhost:5601)

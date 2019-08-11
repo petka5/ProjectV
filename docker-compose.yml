@@ -50,29 +50,32 @@ services:
 # https://medium.com/@karthi.net/how-to-aggregate-docker-container-logs-and-analyse-with-elk-stack-fb88cf5a98a4:
   logspout:
     image: gliderlabs/logspout:latest
-    command: 'udp://logstash:5000'
+    command: 'syslog://logstash:5000'
     links:
       - logstash
     volumes:
-      - '/var/run/docker.sock:/tmp/docker.sock'
+      - '/var/run/docker.sock:/var/run/docker.sock'
     depends_on:
       - elasticsearch
       - logstash
       - kibana
+# https://blog.jhink.com/centralize-docker-logs-using-elastic-stack-e55670bfb714
 
   logstash:
-    image: logstash:7.2.0
+    image: logstash:7.3.0
     environment:
       - STDOUT=true
     links:
       - elasticsearch
+    ports:
+      - '5000:5000'
     depends_on:
       - elasticsearch
       - kibana
-    command: 'logstash -e "input { udp { port => 5000 } } output { elasticsearch { hosts => elasticsearch } }"'
+    command: 'logstash -e "input { syslog { port => 5000 } }   output { elasticsearch { hosts => elasticsearch } }"'
 
   kibana:
-    image: kibana:7.2.0
+    image: kibana:7.3.0
     links:
       - elasticsearch
     environment:
@@ -83,7 +86,10 @@ services:
       - elasticsearch
 
   elasticsearch:
-    image: elasticsearch:7.2.0
+    image: elasticsearch:7.3.0
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
     ports:
       - '9200:9200'
       - '9300:9300'
