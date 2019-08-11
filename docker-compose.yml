@@ -67,12 +67,14 @@ services:
       - STDOUT=true
     links:
       - elasticsearch
+    volumes:
+      - "./elk/logstash.conf:/config-dir/logstash.conf"
     ports:
       - '5000:5000'
     depends_on:
       - elasticsearch
       - kibana
-    command: 'logstash -e "input { syslog { port => 5000 } }   output { elasticsearch { hosts => elasticsearch } }"'
+    command: logstash -f /config-dir/logstash.conf
 
   kibana:
     image: kibana:7.3.0
