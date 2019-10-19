@@ -1,4 +1,4 @@
-FROM rabbitmq:3.7.17-rc.1-management
+FROM rabbitmq:3.8-rc-management
 
 LABEL maintainer="petar.georgiev@gmail.com"
 LABEL version="1.0.0"

@@ -1,4 +1,4 @@
-FROM openjdk:8u222-jre
+FROM openjdk:8u232-jre
 
 LABEL maintainer="petar.georgiev@gmail.com"
 LABEL version="1.0.0"
