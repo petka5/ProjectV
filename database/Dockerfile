@@ -1,4 +1,4 @@
-FROM mariadb:latest
+FROM mariadb:10.4.8
 
 LABEL maintainer="petar.georgiev@gmail.com"
 LABEL version="1.0.0"
