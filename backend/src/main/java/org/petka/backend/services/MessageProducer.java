@@ -34,10 +34,17 @@ public class MessageProducer {
     @Value("${rabbitmq.routing.key}")
     private String routingKey;
 
+    @Value("${rabbitmq.rpc.exchange.name}")
+    private String rpcEchangeName;
+
+
+    @Value("${rabbitmq.rpc.routing.key}")
+    private String rpcRoutingKey;
+
     private final RabbitTemplate rabbitTemplate;
 
     /**
-     * Producet rabbitmq message.
+     * Produces rabbitmq message.
      */
     public void produce() {
 
@@ -46,6 +53,18 @@ public class MessageProducer {
 
         rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
         log.info("Message was sent {}.", message);
+    }
+
+    /**
+     * Sending RPC call.
+     */
+    public String rpcProducer() {
+        Message message =
+                Message.builder().id(UUID.randomUUID()).msg("Sample Message").date(LocalDateTime.now()).build();
+        log.info("Sending RPC call {}", message);
+        UUID response = (UUID) rabbitTemplate.convertSendAndReceive(rpcEchangeName, rpcRoutingKey, message);
+        log.info("Response is {}.", response);
+        return "RPC response is: " + response;
     }
 
 }

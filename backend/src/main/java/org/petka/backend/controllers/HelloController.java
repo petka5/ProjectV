@@ -46,6 +46,17 @@ public class HelloController {
         return "Greetings from Spring Boot!";
     }
 
+    /**
+     * RPC method invocation.
+     */
+    @RequestMapping("/rpc")
+    public String rpc() {
+        log.info("RPC call.");
+        String response = messageProducer.rpcProducer();
+        log.info("Response is {}", response);
+        return response;
+    }
+
     @GetMapping("/cache/{id}")
     public String getPostByID(@PathVariable String id) {
         log.info("Get result for {}", id);

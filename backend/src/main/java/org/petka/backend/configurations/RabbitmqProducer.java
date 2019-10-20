@@ -14,6 +14,7 @@ import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +41,7 @@ public class RabbitmqProducer {
     /**
      * Creating an Direct Exchange.
      */
-    @Bean
+    @Bean(name = "exchangeName")
     public DirectExchange exchange() {
         return new DirectExchange(exchangeName);
     }
@@ -49,17 +50,17 @@ public class RabbitmqProducer {
     /**
      * Creating a Durable Queue.
      */
-    @Bean
+    @Bean(name = "queue")
     public Queue queue() {
         return QueueBuilder.durable(queueName).build();
 
     }
 
     /**
-     * Creating a binding which Binds the Queue to an Exhange using a Routing Key.
+     * Creating a binding which Binds the Queue to an Exchange using a Routing Key.
      */
     @Bean
-    public Binding binding(Queue queue, DirectExchange directExchange) {
+    public Binding binding(@Qualifier("queue") Queue queue, @Qualifier("exchangeName") DirectExchange directExchange) {
 
         return BindingBuilder.bind(queue).to(directExchange).with(routingKey);
     }

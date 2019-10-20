@@ -6,6 +6,8 @@
 
 package org.petka.backend.services;
 
+import java.util.UUID;
+
 import org.petka.backend.domain.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +27,11 @@ public class MessageListner {
     @RabbitListener(queues = "${rabbitmq.queue.name}")
     public void consume(Message message) {
         log.info("Payload {} ", message);
+    }
+
+    @RabbitListener(queues = "${rabbitmq.rpc.queue.name}")
+    public UUID rpcConsumer(Message message) {
+        log.info("RPC call payload {}.", message);
+        return message.getId();
     }
 }
