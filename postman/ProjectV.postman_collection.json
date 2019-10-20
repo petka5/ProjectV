@@ -181,6 +181,27 @@
 			"response": []
 		},
 		{
+			"name": "/rpc",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/rpc",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"rpc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "/cache",
 			"request": {
 				"auth": {
