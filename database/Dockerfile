@@ -1,5 +1,5 @@
 FROM mariadb:10.4.8
-
+# https://stackoverflow.com/questions/46060533/docker-container-postgres-connection-error
 LABEL maintainer="petar.georgiev@gmail.com"
 LABEL version="1.0.0"
 

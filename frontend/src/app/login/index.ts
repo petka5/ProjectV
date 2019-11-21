@@ -5,3 +5,4 @@
  */
 
 export * from './login.component';
+export * from './auth.password.flow.config'
