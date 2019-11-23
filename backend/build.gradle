@@ -26,6 +26,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    compileOnly 'com.google.code.findbugs:findbugs-annotations:3.0.1'
     compileOnly libraries.lombok
     annotationProcessor libraries.lombok
 
