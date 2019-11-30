@@ -23,6 +23,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-amqp'
     compile 'com.fasterxml.jackson.core:jackson-databind'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    compile 'org.modelmapper:modelmapper:2.3.5'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
@@ -30,5 +31,10 @@ dependencies {
     compileOnly libraries.lombok
     annotationProcessor libraries.lombok
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+    testCompile 'org.junit.jupiter:junit-jupiter-params:5.5.2'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+    testCompile 'org.mockito:mockito-core:3.2.0'
+    testCompile 'org.mockito:mockito-junit-jupiter:2.23.0'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 }

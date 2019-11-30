@@ -8,14 +8,18 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '@environments/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import {map} from 'rxjs/operators';
 
 import {User} from '@/_models';
+
+const jwtHelperService = new JwtHelperService();
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -42,8 +46,11 @@ export class AuthenticationService {
     return this.http.post<any>(`${environment.apiUrl}/oauth/token`, body.toString(), httpOptions)
       .pipe(map(response => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
+        const decodedToken = jwtHelperService.decodeToken(response.access_token );
+
         localStorage.setItem('access_token', JSON.stringify(response.access_token));
         localStorage.setItem('refresh_token', JSON.stringify(response.refresh_token));
+        localStorage.setItem("username", decodedToken.user_name);
         this.currentUserSubject.next(response);
         return response;
       }));
@@ -53,6 +60,7 @@ export class AuthenticationService {
     // remove user from local storage and set current user to null
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('username');
     this.currentUserSubject.next(null);
   }
 }

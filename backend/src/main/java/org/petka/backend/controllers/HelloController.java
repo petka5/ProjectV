@@ -25,7 +25,6 @@ public class HelloController {
     @Autowired
     private UserRepository userRepository;
 
-
     @Autowired
     private MessageProducer messageProducer;
 

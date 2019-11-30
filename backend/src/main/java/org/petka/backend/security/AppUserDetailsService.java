@@ -6,8 +6,8 @@
 
 package org.petka.backend.security;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.petka.backend.persistence.User;
 import org.petka.backend.persistence.UserRepository;
@@ -29,22 +29,20 @@ public class AppUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(s);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username).map(this::getUserDetails)
+                .orElseThrow(() ->
+                                     new UsernameNotFoundException(
+                                             String.format("The username %s doesn't exist", username)));
+    }
 
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("The username %s doesn't exist", s));
-        }
+    private UserDetails getUserDetails(User user) {
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+                                                                      getUserAuthorities(user));
+    }
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-        });
-
-        UserDetails userDetails =
-                new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                                                                       authorities);
-
-        return userDetails;
+    private List<GrantedAuthority> getUserAuthorities(User user) {
+        return user.getRoles().stream().map(e -> e.getRoleName()).map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 }

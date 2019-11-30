@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
  */
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Data
 @Entity
 public class Role {
@@ -35,4 +37,9 @@ public class Role {
 
     @Column(name = "description")
     private String description;
+
+
+    public enum UserRoles {
+        ADMIN_USER, STANDARD_USER
+    }
 }

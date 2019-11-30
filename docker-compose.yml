@@ -46,75 +46,75 @@ services:
     container_name: petka-redis
     ports:
       - '6379:6379'
-
-# https://medium.com/@karthi.net/how-to-aggregate-docker-container-logs-and-analyse-with-elk-stack-fb88cf5a98a4:
-  logspout:
-    image: gliderlabs/logspout:v3.2.6
-    command: 'syslog://logstash:5000'
-    links:
-      - logstash
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-    depends_on:
-      - elasticsearch
-      - logstash
-      - kibana
-# https://blog.jhink.com/centralize-docker-logs-using-elastic-stack-e55670bfb714
-
-  logstash:
-    image: logstash:7.4.0
-    environment:
-      - STDOUT=true
-    links:
-      - elasticsearch
-    volumes:
-      - "./elk/logstash.conf:/config-dir/logstash.conf"
-    ports:
-      - '5000:5000'
-    depends_on:
-      - elasticsearch
-      - kibana
-    command: logstash -f /config-dir/logstash.conf
-
-  kibana:
-    image: kibana:7.4.0
-    links:
-      - elasticsearch
-    environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-    ports:
-      - '5601:5601'
-    depends_on:
-      - elasticsearch
-
-  elasticsearch:
-    image: elasticsearch:7.4.0
-    environment:
-      - xpack.security.enabled=false
-      - discovery.type=single-node
-    ports:
-      - '9200:9200'
-      - '9300:9300'
-
-# https://dimitr.im/monitoring-spring-prometheus-grafana
-# https://stackoverflow.com/questions/56826360/docker-compose-opening-storage-failed-permission-denied-error-on-running
-  grafana:
-    image: grafana/grafana:6.4.3
-    ports:
-      - 3000:3000
-    user: "1000"
-    volumes:
-      - ./grafana:/var/lib/grafana
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=adminadmin
-
-  prometheus:
-    container_name: prometheus
-    image: prom/prometheus:v2.13.1
-    ports:
-      - 9090:9090
-    volumes:
-      - ./grafana/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
+#
+## https://medium.com/@karthi.net/how-to-aggregate-docker-container-logs-and-analyse-with-elk-stack-fb88cf5a98a4:
+#  logspout:
+#    image: gliderlabs/logspout:v3.2.6
+#    command: 'syslog://logstash:5000'
+#    links:
+#      - logstash
+#    volumes:
+#      - '/var/run/docker.sock:/var/run/docker.sock'
+#    depends_on:
+#      - elasticsearch
+#      - logstash
+#      - kibana
+## https://blog.jhink.com/centralize-docker-logs-using-elastic-stack-e55670bfb714
+#
+#  logstash:
+#    image: logstash:7.4.0
+#    environment:
+#      - STDOUT=true
+#    links:
+#      - elasticsearch
+#    volumes:
+#      - "./elk/logstash.conf:/config-dir/logstash.conf"
+#    ports:
+#      - '5000:5000'
+#    depends_on:
+#      - elasticsearch
+#      - kibana
+#    command: logstash -f /config-dir/logstash.conf
+#
+#  kibana:
+#    image: kibana:7.4.0
+#    links:
+#      - elasticsearch
+#    environment:
+#      - ELASTICSEARCH_URL=http://elasticsearch:9200
+#    ports:
+#      - '5601:5601'
+#    depends_on:
+#      - elasticsearch
+#
+#  elasticsearch:
+#    image: elasticsearch:7.4.0
+#    environment:
+#      - xpack.security.enabled=false
+#      - discovery.type=single-node
+#    ports:
+#      - '9200:9200'
+#      - '9300:9300'
+#
+## https://dimitr.im/monitoring-spring-prometheus-grafana
+## https://stackoverflow.com/questions/56826360/docker-compose-opening-storage-failed-permission-denied-error-on-running
+#  grafana:
+#    image: grafana/grafana:6.4.3
+#    ports:
+#      - 3000:3000
+#    user: "1000"
+#    volumes:
+#      - ./grafana:/var/lib/grafana
+#    environment:
+#      - GF_SECURITY_ADMIN_USER=admin
+#      - GF_SECURITY_ADMIN_PASSWORD=adminadmin
+#
+#  prometheus:
+#    container_name: prometheus
+#    image: prom/prometheus:v2.13.1
+#    ports:
+#      - 9090:9090
+#    volumes:
+#      - ./grafana/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+#    command:
+#      - --config.file=/etc/prometheus/prometheus.yml
