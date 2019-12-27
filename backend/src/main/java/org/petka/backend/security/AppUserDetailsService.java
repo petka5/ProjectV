@@ -6,6 +6,7 @@
 
 package org.petka.backend.security;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,7 @@ public class AppUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails getUserDetails(User user) {
+        user.setLastLogin(LocalDateTime.now());
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                                                                       getUserAuthorities(user));
     }

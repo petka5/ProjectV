@@ -26,17 +26,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MessageProducer {
 
-
     @Value("${rabbitmq.exchange.name}")
     private String exchangeName;
-
 
     @Value("${rabbitmq.routing.key}")
     private String routingKey;
 
     @Value("${rabbitmq.rpc.exchange.name}")
     private String rpcEchangeName;
-
 
     @Value("${rabbitmq.rpc.routing.key}")
     private String rpcRoutingKey;

@@ -6,6 +6,8 @@
 
 package org.petka.backend.services;
 
+import java.time.LocalDateTime;
+
 import org.modelmapper.ModelMapper;
 import org.petka.backend.dto.UserDto;
 import org.petka.backend.persistence.Role;
@@ -26,17 +28,22 @@ import com.google.common.collect.ImmutableList;
 @Service
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
     public PasswordEncoder passwordEncoder;
 
-    @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    public UserService(UserRepository userRepository, RoleRepository roleRepository,
+                       PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
+    }
 
     /**
      * Register user to the system.
@@ -52,6 +59,7 @@ public class UserService {
     private User saveUser(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setCreated(LocalDateTime.now());
         user.setRoles(ImmutableList.of(roleRepository.findByRoleName(Role.UserRoles.STANDARD_USER.name())));
         return userRepository.save(user);
     }

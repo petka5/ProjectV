@@ -6,7 +6,6 @@
 
 package org.petka.backend.controllers;
 
-
 import org.modelmapper.ModelMapper;
 import org.petka.backend.dto.UserDto;
 import org.petka.backend.services.UserService;
